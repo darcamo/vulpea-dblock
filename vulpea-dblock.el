@@ -422,5 +422,19 @@ changed are rewritten -- in idle-time slices bounded by
       (vulpea-dblock--enable)
     (vulpea-dblock--disable)))
 
+
+;;;###autoload
+(defun vulpea-dblock-insert-dblock ()
+  "Insert a vulpea dynamic block at point."
+  (interactive)
+  (org-create-dblock (list :name "vulpea" :tags '() :sort 'mtime :reverse t :limit 10))
+  (org-update-dblock))
+
+;; org is a hard dependency (via vulpea), so it is already loaded here
+(when (fboundp 'org-dynamic-block-define)
+  (org-dynamic-block-define "vulpea"
+                            #'vulpea-dblock-insert-dblock))
+
+
 (provide 'vulpea-dblock)
 ;;; vulpea-dblock.el ends here
